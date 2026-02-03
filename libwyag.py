@@ -14,6 +14,15 @@ argparser = argparser.ArgumentParser(description="The stupidest content tracker"
 argsubparsers = argparser.add_subparsers(title="Commands", dest="command")
 argsubparser.required = True
 
+class GitRepository (object):
+    worktree = None
+    gitdir = None
+    conf = None
+
+    def __init__(self, path, force=False):
+        self.worktree = path
+        self.gitdir = os.path.join(path, ".git")
+
 def main(argv=sys.argv[1:]):
     args = argparser.parse_args(argv)
     match args.command:
