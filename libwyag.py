@@ -23,6 +23,22 @@ class GitRepository (object):
         self.worktree = path
         self.gitdir = os.path.join(path, ".git")
 
+        if not (force or os.path.isdir(self.gitdir)):
+            raise Exception(f"Not a Git Repository {path}")
+
+        self.conf = configparser.ConfigParser()
+        cf = repo_file(self, "config")
+
+        if cf and os.path.exists(cf):
+            self.conf.read([cf])
+        elif not force:
+            raise Exception("Configuration file missing")
+
+        if not force:
+            vers = int(self.conf.get("core", "repositoryformatversion"))
+            if vers != 0:
+                raise Exception("Unsupported repositoryformatversion: {vers}")
+
 def main(argv=sys.argv[1:]):
     args = argparser.parse_args(argv)
     match args.command:
