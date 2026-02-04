@@ -10,9 +10,11 @@ import re
 import sys
 import zlib
 
-argparser = argparser.ArgumentParser(description="The stupidest content tracker")
+argparser = argparse.ArgumentParser(description="The stupidest content tracker")
 argsubparsers = argparser.add_subparsers(title="Commands", dest="command")
-argsubparser.required = True
+argsubparsers.required = True
+argsp = argsubparsers.add_parser("init", help="Initialize a new, empty repository.")
+argsp.add_argument("path", metavar="directory",nargs="?",default=".",help="Where to create the repository.")
 
 class GitRepository (object):
     worktree = None
@@ -103,6 +105,8 @@ def repo_default_config():
 
     return ret
 
+def cmd_init(args):
+    repo_create(args.path)
 
 def main(argv=sys.argv[1:]):
     args = argparser.parse_args(argv)
@@ -122,4 +126,4 @@ def main(argv=sys.argv[1:]):
         case "show-ref"        : cmd_show_ref(args)
         case "status"          : cmd_status(args)
         case "tag"             : cmd_tag(args)
-        case _                 : print("Bad command.")
+        case _                 : print("Bad command.") 
