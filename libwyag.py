@@ -16,6 +16,25 @@ argsubparsers.required = True
 argsp = argsubparsers.add_parser("init", help="Initialize a new, empty repository.")
 argsp.add_argument("path", metavar="directory",nargs="?",default=".",help="Where to create the repository.")
 
+class GitObject (object):
+
+    def __init__(self, data=None):
+        if data != None:
+            self.deserialize(data)
+        else:
+            self.init()
+    def serialize(self, repo):
+        raise Exception("Unimplemented!")
+
+    def serialize(self, repo):
+        raise Exception("Unimplemented!")
+
+    def init(self):
+        pass
+    
+
+    
+
 class GitRepository (object):
     worktree = None
     gitdir = None
