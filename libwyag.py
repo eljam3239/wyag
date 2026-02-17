@@ -143,6 +143,15 @@ def repo_find(path=".", required=True):
 def cmd_init(args):
     repo_create(args.path)
 
+def object_read(repo, sha)
+    path = repo_file(repo, "objects", sha[0:2], sha[2:])
+
+    if not os.path.isfile(path):
+        return None
+    
+    with open (path, "b") as f:
+        raw = zlib.decompress(f.read())
+
 def main(argv=sys.argv[1:]):
     args = argparser.parse_args(argv)
     match args.command:
