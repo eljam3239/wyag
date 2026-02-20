@@ -16,6 +16,15 @@ argsubparsers.required = True
 argsp = argsubparsers.add_parser("init", help="Initialize a new, empty repository.")
 argsp.add_argument("path", metavar="directory",nargs="?",default=".",help="Where to create the repository.")
 
+class GitBlob(GitObject):
+    fmt=b'blob'
+
+    def serialize(self):
+        return self.blobdata
+
+    def deserialize(self, data):
+        self.blobdata = data
+
 class GitObject (object):
 
     def __init__(self, data=None):
@@ -182,6 +191,8 @@ def object_write(obj, repo=None):
             with open(path, 'wb') as f:
                 f.write(zlib.compress(result))
     return sha
+
+
 
 def main(argv=sys.argv[1:]):
     args = argparser.parse_args(argv)
